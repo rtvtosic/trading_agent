@@ -25,7 +25,7 @@ def fetch_market_data(symbol="BTC/USDT", timeframe='1h', limit=100):
     
 
 
-def count_sma(df: pd.DataFrame, candles_cnt=50) -> float:
+def count_sma(df: pd.DataFrame, candles_cnt=50) -> pd.Series:
     """
     average price for last [candles_cnt] candles
     
@@ -56,4 +56,6 @@ if __name__ == "__main__":
                                       'low', 'close', 'volume'])
     df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
 
+
+    df['SMA_20'] = count_sma(df)
     print(df)
