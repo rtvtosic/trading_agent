@@ -33,7 +33,21 @@ def count_sma(df: pd.DataFrame, candles_cnt=50) -> float:
 
     return df['close'].rolling(window=candles_cnt).mean()
 
+def count_rsi(df: pd.DataFrame, candles_cnt=14) -> float:
+    """
+    counts RSI indicator for last [candles_cnt] candles
+    """
     
+    delta = df['close'].diff()
+    gain = delta.where(delta > 0, 0)
+    loss = -delta.where(delta < 0, 0)
+
+    avg_gain = gain.rolling(window=14).mean()
+    avg_loss = loss.rolling(window=14).mean()
+
+    rs = avg_gain / avg_loss
+    
+    return 100 - (100 / (1 + rs))
         
 
 if __name__ == "__main__":
