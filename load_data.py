@@ -33,7 +33,7 @@ def count_sma(df: pd.DataFrame, candles_cnt=50) -> pd.Series:
 
     return df['close'].rolling(window=candles_cnt).mean()
 
-def count_rsi(df: pd.DataFrame, candles_cnt=14) -> float:
+def count_rsi(df: pd.DataFrame, candles_cnt=14) -> pd.Series:
     """
     counts RSI indicator for last [candles_cnt] candles
     """
@@ -42,8 +42,8 @@ def count_rsi(df: pd.DataFrame, candles_cnt=14) -> float:
     gain = delta.where(delta > 0, 0)
     loss = -delta.where(delta < 0, 0)
 
-    avg_gain = gain.rolling(window=14).mean()
-    avg_loss = loss.rolling(window=14).mean()
+    avg_gain = gain.rolling(window=candles_cnt).mean()
+    avg_loss = loss.rolling(window=candles_cnt).mean()
 
     rs = avg_gain / avg_loss
     
@@ -57,5 +57,8 @@ if __name__ == "__main__":
     df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
 
 
-    df['SMA_20'] = count_sma(df)
+    df['SMA_50'] = count_sma(df)
+    df['RSI'] = count_rsi(df)
     print(df)
+
+    #print(count_rsi(df))
