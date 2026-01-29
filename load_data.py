@@ -15,9 +15,12 @@ def _fetch_market_data(symbol="BTC/USDT", timeframe='1h', limit=100):
 
     return df, exchange
 
-
+@tool
 def get_technical_analysis(symbol: str,
                            timeframe: str = '1h'):
+    """
+    Функция для расчета индикаторов SMA_50 и RSI_14
+    """
     try:
         # загрузка данных
         df, exchange = _fetch_market_data(symbol, timeframe, limit=100)
@@ -50,4 +53,5 @@ def get_technical_analysis(symbol: str,
 
 
 if __name__ == "__main__":
-    print(get_technical_analysis('BTC/USDT'))
+    df, exchange = _fetch_market_data()
+    print(df.head())
