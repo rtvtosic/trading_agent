@@ -1,7 +1,10 @@
 import ccxt
 import pandas as pd
 
+from langchain_core.tools import tool
 
+
+@tool
 def fetch_market_data(symbol="BTC/USDT", timeframe='1h', limit=100):
     """
     Loads data from MEXC exchange
@@ -24,7 +27,7 @@ def fetch_market_data(symbol="BTC/USDT", timeframe='1h', limit=100):
         return None
     
 
-
+@tool
 def count_sma(df: pd.DataFrame, candles_cnt=50) -> pd.Series:
     """
     average price for last [candles_cnt] candles
@@ -33,6 +36,7 @@ def count_sma(df: pd.DataFrame, candles_cnt=50) -> pd.Series:
 
     return df['close'].rolling(window=candles_cnt).mean()
 
+@tool
 def count_rsi(df: pd.DataFrame, candles_cnt=14) -> pd.Series:
     """
     counts RSI indicator for last [candles_cnt] candles
